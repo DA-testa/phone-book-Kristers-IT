@@ -37,6 +37,7 @@ def write_responses(result):
 def process_queries(queries):
     #start_time = time.time()
     contacts = {}
+    result = []
     m = 1
     index = random.randint(0, m-1)
     if index >= m:
