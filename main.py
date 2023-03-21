@@ -1,47 +1,65 @@
-# python3
+import time
+import random 
+import sys
 
 class Query:
     def __init__(self, query):
         self.type = query[0]
         self.number = int(query[1])
-        if self.type == 'add':
-            self.name = query[2]
+        if len(query[1]) > 7:   #or int(query[1][:1]) == 0
+            print("wrong input")
+            sys.exit()
+        else:
+            if self.type == 'add':
+
+                try:
+                    self.name = query[2]
+                except IndexError:
+                    print("wrong input")
+                    sys.exit()
+
+                if len(query[2]) >= 15 or query[2] == "not" and query[3] == "found":
+                    print("wrong input")
+                    sys.exit()
 
 def read_queries():
     n = int(input())
-    return [Query(input().split()) for i in range(n)]
+    if n >= 1 and n <= 10^(5):
+        return [Query(input().split()) for i in range(n)]
+    else:
+        print("wrong input")
+        sys.exit()
+        
 
 def write_responses(result):
     print('\n'.join(result))
 
 def process_queries(queries):
+    #start_time = time.time()
+    contacts = {}
     result = []
-    # Keep list of all existing (i.e. not deleted yet) contacts.
-    contacts = []
+    m = 1
+    index = random.randint(0, m-1)
+    if index >= m:
+        m = index + 1
+    contacts[index] = index
     for cur_query in queries:
         if cur_query.type == 'add':
-            # if we already have contact with such number,
-            # we should rewrite contact's name
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    contact.name = cur_query.name
-                    break
-            else: # otherwise, just add it
-                contacts.append(cur_query)
+            if cur_query.name in queries:
+                contacts[cur_query.number] = cur_query.name
+            else:
+                contacts[cur_query.number] = cur_query.name
         elif cur_query.type == 'del':
-            for j in range(len(contacts)):
-                if contacts[j].number == cur_query.number:
-                    contacts.pop(j)
-                    break
-        else:
-            response = 'not found'
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    response = contact.name
-                    break
+            if cur_query.number in contacts:
+                del contacts[cur_query.number]
+        elif cur_query.type == 'find':
+            if cur_query.number in contacts:
+                response = contacts[cur_query.number]
+            else:
+                response = "not found"
             result.append(response)
+    #print(time.time() - start_time)
     return result
 
 if __name__ == '__main__':
     write_responses(process_queries(read_queries()))
-
