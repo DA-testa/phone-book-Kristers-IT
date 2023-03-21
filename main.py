@@ -55,6 +55,8 @@ def process_queries(queries):
         elif cur_query.type == 'find':
             if cur_query.number in contacts:
                 response = contacts[cur_query.number]
+            else:
+                response = "not found"
             result.append(response)
     #print("--- %s seconds ---" % (time.time() - start_time))
     return result
