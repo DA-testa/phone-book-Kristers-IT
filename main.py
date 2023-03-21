@@ -36,7 +36,7 @@ def write_responses(result):
     print('\n'.join(result[1:]))
 
 def process_queries(queries):
-    start_time = time.time()
+    #start_time = time.time()
     result = ""
     contacts = {}
     m = 1
@@ -59,7 +59,7 @@ def process_queries(queries):
             else:
                 response = "not found"
             result = np.append(result, response)
-    print(time.time() - start_time)
+    #print(time.time() - start_time)
     return result
 
 if __name__ == '__main__':
