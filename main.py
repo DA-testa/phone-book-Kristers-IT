@@ -6,7 +6,7 @@ class Query:
     def __init__(self, query):
         self.type = query[0]
         self.number = int(query[1])
-        if len(query[1]) > 7 or int(query[1][:1]) == 0:
+        if len(query[1]) > 7:   #or int(query[1][:1]) == 0
             print("wrong input")
             sys.exit()
         else:
