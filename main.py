@@ -1,6 +1,7 @@
 import time
 import random 
 import sys
+import numpy as np
 
 class Query:
     def __init__(self, query):
@@ -32,20 +33,20 @@ def read_queries():
         
 
 def write_responses(result):
-    print('\n'.join(result))
+    print('\n'.join(result[1:]))
 
 def process_queries(queries):
-    #start_time = time.time()
-    result = []
+    start_time = time.time()
+    result = ""
     contacts = {}
     m = 1
     index = random.randint(0, m-1)
     if index >= m:
         m = index + 1
-    contacts[index] = random.randint(0,m)
+    contacts[index] = index
     for cur_query in queries:
         if cur_query.type == 'add':
-            if cur_query.number in queries:
+            if cur_query.name in queries:
                 contacts[cur_query.number] = cur_query.name
             else:
                 contacts[cur_query.number] = cur_query.name
@@ -57,8 +58,8 @@ def process_queries(queries):
                 response = contacts[cur_query.number]
             else:
                 response = "not found"
-            result.append(response)
-    #print("--- %s seconds ---" % (time.time() - start_time))
+            result = np.append(result, response)
+    print(time.time() - start_time)
     return result
 
 if __name__ == '__main__':
